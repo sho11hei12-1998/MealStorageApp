@@ -106,7 +106,17 @@ class SignUpScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={styles.container}>
+        <Header
+          backgroundColor="none"
+          leftComponent={
+            <View>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Icon name="chevron-left" size={40} color='gray' />
+              </TouchableOpacity>
+            </View>
+          }
+        />
 
 
         {/* <Text style={{ fontSize: 30 }}>{'電話番号'}</Text>
@@ -154,7 +164,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

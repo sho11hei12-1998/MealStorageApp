@@ -31,8 +31,8 @@ class SignInScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        {/* <Header
+      <View style={styles.container}>
+        <Header
           backgroundColor="none"
           leftComponent={
             <View>
@@ -41,7 +41,7 @@ class SignInScreen extends React.Component {
               </TouchableOpacity>
             </View>
           }
-        /> */}
+        />
 
         <Text style={{ fontSize: 30 }}>{'メールアドレス'}</Text>
 
@@ -76,8 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center'
   },
 });
 

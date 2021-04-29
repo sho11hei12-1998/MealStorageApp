@@ -183,7 +183,7 @@ export default class App extends React.Component {
       address: '',
 
       isLoading: false,
-      isAuth: true,
+      isAuth: false,
     };
   }
 

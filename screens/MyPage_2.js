@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-class DetailScreen extends React.Component {
+class MyPage_2 extends React.Component {
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>DetailScreen</Text>
+        <Text>MyPage_2</Text>
       </View>
     );
   }
@@ -22,5 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-export default DetailScreen;
+export default MyPage_2;

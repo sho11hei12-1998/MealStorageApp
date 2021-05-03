@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { Header, Icon, Input, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
 import firebase from 'firebase';
-import fire from './fire';
+import fire from 'app/screens/fire';
 
 //会員登録ボタンがタップされたあとの処理
 // const _onPressSignUpButton = () => {

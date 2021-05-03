@@ -1,12 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { Searchbar } from 'react-native-paper';
 
 class SearchScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: ''
+    };
+  }
 
   render() {
     return (
-      <View style={{ flex: 1, }}>
+      <View style={styles.container}>
+        <SafeAreaView />
+        <Searchbar
+          placeholder="検索"
+          onChangeText={text => this.setState({ search: text })}
+          value={this.state.search}
+          style={{ margin: 10 }}
+          returnKeyType='search'
+        />
       </View>
     );
   }
@@ -16,8 +31,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

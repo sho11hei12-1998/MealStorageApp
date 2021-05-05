@@ -36,5 +36,5 @@
     "@babel/core": "^7.9.0"
   },
   "private": true,
-  "version": "0.0.0"
+  "version": "v1.22.4"
 }

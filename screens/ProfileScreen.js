@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   StyleSheet, Text, View, Button,
-  TouchableOpacity, Dimensions
+  TouchableOpacity, Dimensions, ScrollView
 } from 'react-native';
 import { Icon, Header } from 'react-native-elements';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -31,7 +31,7 @@ class ProfileScreen extends React.Component {
         <TopTab.Screen
           name="MyPage_2"
           component={MyPage_2}
-          options={{ tabBarLabel: 'Favorite' }}
+          options={{ tabBarLabel: 'Stock' }}
         />
       </TopTab.Navigator>
     );
@@ -51,10 +51,10 @@ class ProfileScreen extends React.Component {
                 onPress={() => this.props.navigation.navigate('Settings')}
               >
                 <Icon
-                  name='dots-horizontal'
+                  name='cog'
                   type='material-community'
                   color='black'
-                  size={30}
+                  size={25}
                 />
               </TouchableOpacity>
             </View>
@@ -106,7 +106,6 @@ class ProfileScreen extends React.Component {
 
         {/* TopTab描画 */}
         {this.MyPageTab()}
-
       </View>
     );
   }

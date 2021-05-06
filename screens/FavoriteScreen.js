@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { Icon, Header } from 'react-native-elements';
 import MapView from 'react-native-maps';
 
@@ -7,10 +7,23 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class FavoriteScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screenType: 0
+    };
+  }
 
   render() {
+    console.log('screenType=' + this.state.screenType);
     return (
       <View style={styles.container}>
+        <SafeAreaView />
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Button title='行きたいところ' onPress={() => this.setState({ screenType: 0 })} />
+          <Button title='行ったところ' onPress={() => this.setState({ screenType: 1 })} />
+        </View>
+
         <MapView
           style={styles.map}
           initialRegion={{

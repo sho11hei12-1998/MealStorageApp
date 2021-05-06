@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as SplashScreen from 'expo-splash-screen';
 
 import HomeScreen from 'app/screens/HomeScreen';
 import DetailScreen from 'app/screens/DetailScreen';
@@ -19,6 +20,7 @@ import SignUpScreen from 'app/screens/Auth/SignUpScreen';
 import SignInScreen from 'app/screens/Auth/SignInScreen';
 
 import firebase from 'firebase';
+import Fire from 'app/screens/Fire_Posts';
 
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
@@ -152,7 +154,6 @@ function BottomTabStack() {
     </Tab.Navigator>
   );
 }
-
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -161,12 +162,31 @@ export default class App extends React.Component {
       arrays: [],
       address: '',
 
-      isLoading: false,
+      isReady: false,
       isAuth: true,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    // Splash Screen表示
+    try {
+      // Keep the splash screen visible while we fetch resources
+      await SplashScreen.preventAutoHideAsync();
+
+      const posts = await Fire.shared.getPosts();
+      if (posts) {
+        console.log(true)
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      // Tell the application to render
+      this.setState({ isReady: true });
+    }
+
     // Firebase Auth
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -181,11 +201,13 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { isLoading, isAuth } = this.state;
+    const { isReady, isAuth } = this.state;
 
-    if (isLoading) {
-      // We haven't finished checking for the token yet
-      return <SplashScreen />;
+    if (isReady) {
+      SplashScreen.hideAsync();
+    }
+    else if (!isReady) {
+      return null;
     }
 
     return (

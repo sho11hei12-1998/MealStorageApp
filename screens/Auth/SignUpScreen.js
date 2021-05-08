@@ -77,21 +77,6 @@ const signUp = (email, password) => {
 //   }
 // }
 
-
-// サインアウト
-const signOut = () => {
-  return firebase.auth().signOut()
-    .then(response => {
-      console.log('User signed out!');
-      return response
-    })
-    .catch(error => {
-      console.log("error", error.message);
-      return error.message
-    });
-}
-
-
 class SignUpScreen extends React.Component {
   constructor(props) {
     super(props)

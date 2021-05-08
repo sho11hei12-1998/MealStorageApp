@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView, Dimensions, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Searchbar } from 'react-native-paper';
 
@@ -39,6 +39,21 @@ const icon_name = [
   },
 ];
 
+const keywords = [
+  {
+    name: "クーポン加盟店"
+  },
+  {
+    name: "人気店"
+  },
+  {
+    name: "ご飯大盛り無料"
+  },
+  {
+    name: "食べ放題"
+  }
+];
+
 class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -59,34 +74,61 @@ class SearchScreen extends React.Component {
           style={{ marginBottom: 20, marginHorizontal: 20 }}
         />
 
-        {/* 探す */}
-        <Text style={styles.title}>探す</Text>
-        <View style={{ alignItems: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
-          {icon_name.map((item, idx) => {
-            return (
-              <TouchableOpacity
-                key={'icon_' + idx}
-              // onPress={() => this.props.navigation.navigate('')}
-              >
-                <View style={styles.icon_container}>
-                  <Icon
-                    reverse
-                    name={item.name}
-                    type='ionicon'
-                    color={item.color}
-                    size={30}
-                  />
-                  <Text>{item.text}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        <ScrollView>
+          {/* 探す */}
+          <Text style={styles.title}>探す</Text>
+          <View style={{ alignItems: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
+            {icon_name.map((item, idx) => {
+              return (
+                <TouchableOpacity
+                  key={'icon_' + idx}
+                // onPress={() => this.props.navigation.navigate('')}
+                >
+                  <View style={styles.icon_container}>
+                    <Icon
+                      reverse
+                      name={item.name}
+                      type='ionicon'
+                      color={item.color}
+                      size={30}
+                    />
+                    <Text>{item.text}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
 
-        <Text style={styles.title}>トレンドキーワード</Text>
+          <View style={styles.keywords_container}>
+            <Text style={{ fontSize: 17, marginBottom: 10 }}>トレンドキーワード</Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
+              {keywords.map((item, idx) => {
+                return (
+                  <TouchableOpacity
+                    key={idx}
+                    style={{
+                      marginVertical: 10,
+                      marginRight: 10,
+                      padding: 10,
+                      backgroundColor: 'lightgray',
+                      borderRadius: 10,
+                      flexDirection: 'row'
+                    }}
+                    onPress={() => this.props.navigation.navigate('SearchDetail')}>
+                    <Icon
+                      name="search"
+                      color='black'
+                      size={15}
+                    />
+                    <Text>{item.name}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
 
-
-        <Text style={styles.title}>検索履歴</Text>
+          <Text style={styles.title}>検索履歴</Text>
+        </ScrollView>
       </View>
     );
   }
@@ -106,6 +148,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: SCREEN_WIDTH / 3,
     paddingBottom: 15,
+  },
+  keywords_container: {
+    paddingLeft: 20,
+    paddingVertical: 10
   }
 });
 

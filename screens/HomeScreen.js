@@ -73,21 +73,21 @@ class HomeScreen extends React.Component {
                         name='heart'
                         type='material-community'
                         color='gray'
-                        size={40}
+                        size={30}
                         style={{ padding: 10 }}
                       />
                       <Icon
                         name='comment'
                         type='material-community'
                         color='gray'
-                        size={40}
+                        size={30}
                         style={{ padding: 10 }}
                       />
                       <Icon
                         name='share'
                         type='material-community'
                         color='gray'
-                        size={40}
+                        size={30}
                         style={{ padding: 10 }}
                       />
                     </View>

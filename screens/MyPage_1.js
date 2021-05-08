@@ -4,36 +4,51 @@ import { Icon } from 'react-native-elements';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
+const category_item = [
+  {
+    id: 0,
+    name: "焼肉",
+    color: "gray",
+  },
+  {
+    id: 1,
+    name: "お寿司",
+    color: "gray",
+  },
+  {
+    id: 2,
+    name: "ラーメン",
+    color: "gray",
+  },
+  {
+    id: 3,
+    name: "中華料理",
+    color: "gray",
+  },
+  {
+    id: 4,
+    name: "フランス料理",
+    color: "gray",
+  },
+];
+
 class MyPage_1 extends React.Component {
 
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <TouchableOpacity
-            style={styles.category_container}>
-            <Text>焼肉</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.category_container}>
-            <Text>お寿司</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.category_container}>
-            <Text>ラーメン</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.category_container}>
-            <Text>焼肉</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.category_container}>
-            <Text>お寿司</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.category_container}>
-            <Text>ラーメン</Text>
-          </TouchableOpacity>
+          {category_item.map((item, idx) => {
+            return (
+              <TouchableOpacity
+                key={idx}
+                style={styles.category_container}
+                onPress={() => this.props.navigation.navigate('Category', item.name)}
+              >
+                <Text>{item.name}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </ScrollView>
     );

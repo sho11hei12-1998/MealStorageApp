@@ -5,6 +5,7 @@ import { Icon, Input, Button, Header } from 'react-native-elements';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { Camera } from 'expo-camera';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
@@ -202,6 +203,7 @@ class AddScreen extends React.Component {
           placement="center"
           centerComponent={{ text: 'Add', style: styles.headerStyle }}
         />
+
         {/* 画像を選択 */}
         {this.renderAddImage()}
 

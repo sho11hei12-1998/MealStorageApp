@@ -11,10 +11,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import HomeScreen from 'app/screens/HomeScreen';
 import DetailScreen from 'app/screens/DetailScreen';
 import SearchScreen from 'app/screens/SearchScreen';
+import SearchDetailScreen from 'app/screens/SearchDetailScreen';
 import AddScreen from 'app/screens/AddScreen';
 import FavoriteScreen from 'app/screens/FavoriteScreen';
 import ProfileScreen from 'app/screens/ProfileScreen';
+import CategoryScreen from 'app/screens/CategoryScreen';
 import SettingsScreen from 'app/screens/SettingsScreen';
+
 import AuthHomeScreen from 'app/screens/Auth/AuthHomeScreen'
 import SignUpScreen from 'app/screens/Auth/SignUpScreen';
 import SignInScreen from 'app/screens/Auth/SignInScreen';
@@ -43,6 +46,7 @@ function SearchStackScreen() {
       headerMode="none"
     >
       <SearchStack.Screen name="Search" component={SearchScreen} />
+      <SearchStack.Screen name="SearchDetail" component={SearchDetailScreen} />
     </SearchStack.Navigator>
   );
 }
@@ -85,6 +89,7 @@ function ProfileStackScreen() {
       headerMode="none"
     >
       <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+      <ProfileStack.Screen name="Category" component={CategoryScreen} />
       <ProfileStack.Screen name="Settings" component={SettingsScreen} />
     </ProfileStack.Navigator>
   );
@@ -191,10 +196,11 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ authState: user.uid });
+        this.setState({ isAuth: true });
         console.log(this.state.authState);
         console.log('Welcome Sign IN now');
       } else {
-        this.setState({ authState: false });
+        this.setState({ isAuth: false });
         console.log('No Sign IN now');
       }
     });

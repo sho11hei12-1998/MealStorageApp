@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
-import { Icon, Header } from 'react-native-elements';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import { Icon, Header, Card } from 'react-native-elements';
 import MapView from 'react-native-maps';
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -42,6 +43,23 @@ class FavoriteScreen extends React.Component {
             onPress={() => alert("click")}
           />
         </MapView>
+
+        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 10 }}>
+          <Card>
+            <Card.Title>HELLO WORLD</Card.Title>
+            <Card.Divider />
+            <Text style={{ marginBottom: 10 }}>
+              Test1.
+            </Text>
+          </Card>
+          <Card>
+            <Card.Title>HELLO WORLD</Card.Title>
+            <Card.Divider />
+            <Text style={{ marginBottom: 10 }}>
+              Test2.
+            </Text>
+          </Card>
+        </View>
       </View>
     );
   }

@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, SafeAreaView,
+  StyleSheet, Text, View, TouchableOpacity, Dimensions, SafeAreaView,
   ScrollView, Animated, AppRegistry, Image
 } from 'react-native';
-import { Icon, Header, Card } from 'react-native-elements';
+import { Icon, Header, Card, Button } from 'react-native-elements';
 import MapView from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
 
@@ -174,6 +174,7 @@ class FavoriteScreen extends React.Component {
           style={styles.scrollView}
           contentContainerStyle={styles.endPadding}
         >
+          {/* Card */}
           {this.state.markers.map((marker, index) => (
             <View style={styles.card} key={index}>
               <Image
@@ -186,6 +187,7 @@ class FavoriteScreen extends React.Component {
                 <Text numberOfLines={1} style={styles.cardDescription}>
                   {marker.description}
                 </Text>
+                <Button title='経路を表示' style={{ marginTop: 100 }} />
               </View>
             </View>
           ))}

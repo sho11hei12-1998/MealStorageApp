@@ -2,55 +2,20 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
-const category_item = [
-  {
-    id: 0,
-    name: "焼肉",
-    color: "gray",
-  },
-  {
-    id: 1,
-    name: "お寿司",
-    color: "gray",
-  },
-  {
-    id: 2,
-    name: "ラーメン",
-    color: "gray",
-  },
-  {
-    id: 3,
-    name: "中華料理",
-    color: "gray",
-  },
-  {
-    id: 4,
-    name: "フランス料理",
-    color: "gray",
-  },
-];
+const { width, height } = Dimensions.get('window');
 
 class MyPage_1 extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          {category_item.map((item, idx) => {
-            return (
-              <TouchableOpacity
-                key={idx}
-                style={styles.category_container}
-                onPress={() => this.props.navigation.navigate('Category', item.name)}
-              >
-                <Text>{item.name}</Text>
-              </TouchableOpacity>
-            );
-          })}
+      <View style={styles.container}>
+        <View style={styles.posts_container}>
+          <Text>Test1</Text>
         </View>
-      </ScrollView>
+        <View style={styles.posts_container}>
+          <Text>Test1</Text>
+        </View>
+      </View>
     );
   }
 }
@@ -60,16 +25,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     flexDirection: 'row',
-    paddingHorizontal: 5,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    padding: 7
   },
-  category_container: {
+  posts_container: {
     backgroundColor: 'lightgray',
-    width: SCREEN_WIDTH / 2.2,
-    height: SCREEN_WIDTH / 2.2,
-    borderRadius: 10,
-    margin: SCREEN_WIDTH * 0.015,
-    marginTop: 10,
+    width: width / 2.2,
+    height: 250,
+    margin: 5,
+    borderRadius: 10
   }
 });
 

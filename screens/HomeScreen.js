@@ -9,9 +9,7 @@ import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-
+const { width, height } = Dimensions.get('window');
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -47,53 +45,52 @@ class HomeScreen extends React.Component {
           {allPosts.map((item, i) => {
             console.log(item);
             return (
-              <TouchableOpacity
+              <View
                 key={'post_' + i}
-                // onPress={() => this.props.navigation.navigate('Detail')}
-                style={{ justifyContent: 'center' }}
-              >
-                <Card
+                style={{
+                  width: width,
+                  height: height - 82,
+                }}>
+                <Image
                   style={{
-                    width: SCREEN_WIDTH,
-                    height: SCREEN_HEIGHT - 82,
-                  }}>
-                  <Card.Cover
-                    style={{
-                      width: SCREEN_WIDTH,
-                      height: SCREEN_WIDTH,
-                    }}
-                    source={{ uri: item.imgUrl }} />
-                  <Card.Title title={item.shopName} subtitle="Card Subtitle" />
-                  <Card.Content>
-                    <Title>Card title</Title>
-                    <Paragraph>Card content</Paragraph>
-
-                    <View style={{ alignItems: 'flex-end' }}>
-                      <Icon
-                        name='heart'
-                        type='material-community'
-                        color='gray'
-                        size={30}
-                        style={{ padding: 10 }}
-                      />
-                      <Icon
-                        name='comment'
-                        type='material-community'
-                        color='gray'
-                        size={30}
-                        style={{ padding: 10 }}
-                      />
-                      <Icon
-                        name='share'
-                        type='material-community'
-                        color='gray'
-                        size={30}
-                        style={{ padding: 10 }}
-                      />
-                    </View>
-                  </Card.Content>
-                </Card>
-              </TouchableOpacity>
+                    width: width,
+                    height: width
+                  }}
+                  source={{ uri: item.imgUrl }} />
+                <View style={{ alignItems: 'flex-end' }}>
+                  <Icon
+                    name='heart'
+                    type='material-community'
+                    color='gray'
+                    size={30}
+                    style={{ margin: 10 }}
+                  />
+                  <Icon
+                    name='comment'
+                    type='material-community'
+                    color='gray'
+                    size={30}
+                    style={{ margin: 10 }}
+                  />
+                  <Icon
+                    name='share'
+                    type='material-community'
+                    color='gray'
+                    size={30}
+                    style={{ margin: 10 }}
+                  />
+                  <TouchableOpacity>
+                    <Icon
+                      reverse
+                      name='person'
+                      type='material-icons'
+                      color='orange'
+                      size={20}
+                      style={{ marginRight: 30 }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
             );
           })}
         </ScrollView>

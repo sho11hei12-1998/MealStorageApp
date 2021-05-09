@@ -12,6 +12,7 @@ import HomeScreen from 'app/screens/HomeScreen';
 import DetailScreen from 'app/screens/DetailScreen';
 import SearchScreen from 'app/screens/SearchScreen';
 import SearchDetailScreen from 'app/screens/SearchDetailScreen';
+import AddButton from 'app/screens/AddButton';
 import AddScreen from 'app/screens/AddScreen';
 import FavoriteScreen from 'app/screens/FavoriteScreen';
 import ProfileScreen from 'app/screens/ProfileScreen';
@@ -57,6 +58,7 @@ function AddStackScreen() {
     <AddStack.Navigator
       initialRouteName='Add'
       headerMode="none"
+      mode='modal'
     >
       <AddStack.Screen name="Add" component={AddScreen} />
     </AddStack.Navigator>

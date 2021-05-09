@@ -1,16 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
+import {
+  StyleSheet, Text, View, TouchableOpacity, Image, Dimensions,
+  ImageBackground
+} from 'react-native';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { Icon, Input, Button, Header } from 'react-native-elements';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { Camera } from 'expo-camera';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
+import { AddButton } from './AddButton';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const { width, height } = Dimensions.get('window');
+
 class AddScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +24,21 @@ class AddScreen extends React.Component {
       text: '',
       addedPost: [],
     };
+  }
+
+  // カメラを起動
+  _takePhoto = async (index) => {
+
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false
+    });
+
+    if (!result.cancelled) {
+      const newImageURIs = this.state.foodRecords.imageURIs;
+      newImageURIs[index] = { uri: result.uri };
+
+
+    }
   }
 
   // ライブラリから写真を読み込み
@@ -52,14 +71,14 @@ class AddScreen extends React.Component {
 
     if (!result.cancelled) {
       // ImageManipulatorでリサイズ処理
-      const actions = [];
-      actions.push({ resize: { width: 350 } });
+      // const actions = [];
+      // actions.push({ resize: { width: 350 } });
       const manipulatorResult = await ImageManipulator.manipulateAsync(
         result.uri,
-        actions,
-        {
-          compress: 0.4,
-        },
+        // actions,
+        // {
+        //   compress: 0.4,
+        // },
       );
       this.setState({
         imgUrl: manipulatorResult.uri,
@@ -69,18 +88,46 @@ class AddScreen extends React.Component {
   };
   renderAddImage() {
     return (
-      <TouchableOpacity onPress={() => this.onAddImagePressed()}>
+      <TouchableOpacity
+        onPress={() => this.onAddImagePressed()}
+        style={{ justifyContent: 'center' }}
+      >
         {this.state.imgUrl ? (
-          <Image
+          <ImageBackground
             style={{
-              width: SCREEN_WIDTH,
-              height: SCREEN_WIDTH,
+              width: width,
+              height: width,
+              justifyContent: 'center'
             }}
-            source={{ uri: this.state.imgUrl }} />
+            source={{ uri: this.state.imgUrl }}>
+
+            <View style={{ justifyContent: 'flex-end' }}>
+              {/* 店名を入力 */}
+              <View>
+                <Input
+                  placeholder='店名を入力'
+                  onChangeText={text => this.setState({ shopName: text })}
+                  defaultValue={this.state.shopName}
+                  style={{ marginTop: 30 }}
+                />
+              </View>
+              {/* テキストを入力 */}
+              <View>
+                <Input
+                  placeholder='テキストを入力'
+                  onChangeText={text => this.setState({ text: text })}
+                  defaultValue={this.state.text}
+                />
+              </View>
+            </View>
+          </ImageBackground>
         ) : (
           <View
             style={{
-              justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgray', height: 200
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'lightgray',
+              height: height
             }}>
             <Icon
               name='camera'
@@ -96,30 +143,30 @@ class AddScreen extends React.Component {
   }
 
   // 店名入力
-  EnterShopName() {
-    return (
-      <View>
-        <Input
-          placeholder='店名を入力'
-          onChangeText={text => this.setState({ shopName: text })}
-          defaultValue={this.state.shopName}
-        />
-      </View>
-    );
-  }
+  // EnterShopName() {
+  //   return (
+  //     <View>
+  //       <Input
+  //         placeholder='店名を入力'
+  //         onChangeText={text => this.setState({ shopName: text })}
+  //         defaultValue={this.state.shopName}
+  //       />
+  //     </View>
+  //   );
+  // }
 
   // テキスト入力
-  EnterText() {
-    return (
-      <View>
-        <Input
-          placeholder='テキストを入力'
-          onChangeText={text => this.setState({ text: text })}
-          defaultValue={this.state.text}
-        />
-      </View>
-    );
-  }
+  // EnterText() {
+  //   return (
+  //     <View>
+  //       <Input
+  //         placeholder='テキストを入力'
+  //         onChangeText={text => this.setState({ text: text })}
+  //         defaultValue={this.state.text}
+  //       />
+  //     </View>
+  //   );
+  // }
 
   // 投稿時の処理
   async onPressAdd() {
@@ -189,7 +236,17 @@ class AddScreen extends React.Component {
   renderAddButton() {
     return (
       <View>
-        <Button title='投稿' onPress={() => this.onPressAdd()} />
+        <TouchableOpacity
+          onPress={() => this.onPressAdd()}
+          style={{ position: 'absolute', right: 0, bottom: 0 }}>
+          <Icon
+            reverse
+            name='send'
+            type='material-icons'
+            color='skyblue'
+            size={25}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -198,11 +255,6 @@ class AddScreen extends React.Component {
     console.log(this.state.imgUrl);
     return (
       <View style={styles.container}>
-        <Header
-          backgroundColor="#fff"
-          placement="center"
-          centerComponent={{ text: 'Add', style: styles.headerStyle }}
-        />
 
         {/* 画像を選択 */}
         {this.renderAddImage()}
@@ -210,10 +262,10 @@ class AddScreen extends React.Component {
         {/* InputForm */}
         <View style={styles.inner}>
           {/* 店名を入力 */}
-          {this.EnterShopName()}
+          {/* {this.EnterShopName()} */}
 
           {/* テキストを入力 */}
-          {this.EnterText()}
+          {/* {this.EnterText()} */}
 
           {/* 投稿ボタン */}
           {this.renderAddButton()}
@@ -227,15 +279,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    justifyContent: 'center'
   },
   inner: {
     padding: 30,
     flex: 1,
-  },
-  headerStyle: {
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
 

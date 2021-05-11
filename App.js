@@ -9,8 +9,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as SplashScreen from 'expo-splash-screen';
 
 // Home
-import HomeScreen from 'app/screens/HomeScreen';
-import DetailScreen from 'app/screens/DetailScreen';
+import HomeScreen from 'app/screens/HomeStack/HomeScreen';
+import DetailScreen from 'app/screens/HomeStack/DetailScreen';
 
 // Search
 import SearchScreen from 'app/screens/SearchScreen';

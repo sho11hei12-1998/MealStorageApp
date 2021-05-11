@@ -51,11 +51,14 @@ class TakePicture extends React.Component {
             <TouchableOpacity
               onPress={() => this.changeFlash()} >
               <Icon
-                name='flash-off'
+                name={
+                  this.state.flash_type === false
+                    ? 'flash-on' : 'flash-off'
+                }
                 type='material-icons'
                 color='lightgray'
-                size={40}
-              />
+                size={40} />
+
             </TouchableOpacity>
             <TouchableOpacity>
               <Icon

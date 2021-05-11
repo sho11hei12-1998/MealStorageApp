@@ -23,8 +23,11 @@ class AddScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
-    }
+      imgUrl: '',
+      shopName: '',
+      text: '',
+      addedPost: [],
+    };
   }
 
   render() {

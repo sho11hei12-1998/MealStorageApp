@@ -1,10 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
-  StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView,
+  StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView, SafeAreaView,
 } from 'react-native';
 import { Icon, Header } from 'react-native-elements';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { AppleCard } from 'react-native-apple-card-views';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
@@ -38,58 +38,53 @@ class HomeScreen extends React.Component {
     const { allPosts } = this.state;
     return (
       <View style={styles.container}>
+        <SafeAreaView />
+        <View style={{ marginLeft: 30, marginBottom: 10 }}>
+          <Text>Hello</Text>
+        </View>
 
         {/* renderPostImage */}
-        <ScrollView pagingEnabled={true}>
-
+        {/* <ScrollView pagingEnabled={true}>
           {allPosts.map((item, i) => {
             console.log(item);
             return (
               <View
                 key={'post_' + i}
-                style={{
-                  width: width,
-                  height: height - 82,
-                }}>
+                style={styles.itemCard_container}
+              >
                 <Image
                   style={{
-                    width: width,
-                    height: width
+                    width: 350,
+                    height: 350,
                   }}
                   source={{ uri: item.imgUrl }} />
-                <View style={{ alignItems: 'flex-end' }}>
-                  <Icon
-                    name='heart'
-                    type='material-community'
-                    color='gray'
-                    size={30}
-                    style={{ margin: 10 }}
-                  />
-                  <Icon
-                    name='comment'
-                    type='material-community'
-                    color='gray'
-                    size={30}
-                    style={{ margin: 10 }}
-                  />
-                  <Icon
-                    name='share'
-                    type='material-community'
-                    color='gray'
-                    size={30}
-                    style={{ margin: 10 }}
-                  />
-                  <TouchableOpacity>
-                    <Icon
-                      reverse
-                      name='person'
-                      type='material-icons'
-                      color='orange'
-                      size={20}
-                      style={{ marginRight: 30 }}
-                    />
-                  </TouchableOpacity>
-                </View>
+              </View>
+            );
+          })}
+        </ScrollView> */}
+
+        <ScrollView
+          pagingEnabled={true}
+          style={{ alignSelf: 'center' }}
+        >
+          {allPosts.map((item, i) => {
+            console.log(item);
+            return (
+              <View
+                key={'post_' + i}
+                style={styles.itemCard_container}
+              >
+                <AppleCard
+                  smallTitle=""
+                  largeTitle={item.shopName}
+                  footnoteText={item.text}
+                  resizeMode="cover"
+                  source={{ uri: item.imgUrl }}
+                  backgroundStyle={{
+                    height: 300,
+                  }}
+                  onPress={() => this.props.navigation.navigate('Detail')}
+                />
               </View>
             );
           })}
@@ -103,14 +98,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   headerStyle: {
     color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
   },
+  itemCard_container: {
+    marginBottom: 30
+  }
 });
 
 export default HomeScreen;

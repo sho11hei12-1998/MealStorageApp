@@ -8,17 +8,28 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as SplashScreen from 'expo-splash-screen';
 
+// Home
 import HomeScreen from 'app/screens/HomeScreen';
 import DetailScreen from 'app/screens/DetailScreen';
+
+// Search
 import SearchScreen from 'app/screens/SearchScreen';
 import SearchDetailScreen from 'app/screens/SearchDetailScreen';
-import AddButton from 'app/screens/AddButton';
-import AddScreen from 'app/screens/AddScreen';
+
+// Add
+import AddScreen from 'app/screens/AddStack/AddScreen';
+import TakePicture from 'app/screens/AddStack/TakePicture';
+import PostLibrary from 'app/screens/AddStack/PostLibrary';
+
+// Favorite
 import FavoriteScreen from 'app/screens/FavoriteScreen';
+
+// Profile
 import ProfileScreen from 'app/screens/ProfileScreen';
 import CategoryScreen from 'app/screens/CategoryScreen';
 import SettingsScreen from 'app/screens/SettingsScreen';
 
+// Auth
 import AuthHomeScreen from 'app/screens/Auth/AuthHomeScreen'
 import SignUpScreen from 'app/screens/Auth/SignUpScreen';
 import SignInScreen from 'app/screens/Auth/SignInScreen';
@@ -61,6 +72,8 @@ function AddStackScreen() {
       mode='modal'
     >
       <AddStack.Screen name="Add" component={AddScreen} />
+      <AddStack.Screen name="TakePicture" component={TakePicture} />
+      <AddStack.Screen name="PostLibrary" component={PostLibrary} />
     </AddStack.Navigator>
   );
 }

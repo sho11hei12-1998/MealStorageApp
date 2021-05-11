@@ -11,11 +11,10 @@ import * as ImageManipulator from 'expo-image-manipulator';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
-import { AddButton } from './AddButton';
 
 const { width, height } = Dimensions.get('window');
 
-class AddScreen extends React.Component {
+class PostLibrary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,21 +23,6 @@ class AddScreen extends React.Component {
       text: '',
       addedPost: [],
     };
-  }
-
-  // カメラを起動
-  _takePhoto = async (index) => {
-
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: false
-    });
-
-    if (!result.cancelled) {
-      const newImageURIs = this.state.foodRecords.imageURIs;
-      newImageURIs[index] = { uri: result.uri };
-
-
-    }
   }
 
   // ライブラリから写真を読み込み
@@ -86,6 +70,31 @@ class AddScreen extends React.Component {
     }
     // }
   };
+
+  textForm() {
+    return (
+      <View style={{ justifyContent: 'flex-end' }}>
+        {/* 店名を入力 */}
+        <View>
+          <Input
+            placeholder='店名を入力'
+            onChangeText={text => this.setState({ shopName: text })}
+            defaultValue={this.state.shopName}
+            style={{ marginTop: 30 }}
+          />
+        </View>
+        {/* テキストを入力 */}
+        <View>
+          <Input
+            placeholder='テキストを入力'
+            onChangeText={text => this.setState({ text: text })}
+            defaultValue={this.state.text}
+          />
+        </View>
+      </View>
+    );
+  }
+
   renderAddImage() {
     return (
       <TouchableOpacity
@@ -101,25 +110,7 @@ class AddScreen extends React.Component {
             }}
             source={{ uri: this.state.imgUrl }}>
 
-            <View style={{ justifyContent: 'flex-end' }}>
-              {/* 店名を入力 */}
-              <View>
-                <Input
-                  placeholder='店名を入力'
-                  onChangeText={text => this.setState({ shopName: text })}
-                  defaultValue={this.state.shopName}
-                  style={{ marginTop: 30 }}
-                />
-              </View>
-              {/* テキストを入力 */}
-              <View>
-                <Input
-                  placeholder='テキストを入力'
-                  onChangeText={text => this.setState({ text: text })}
-                  defaultValue={this.state.text}
-                />
-              </View>
-            </View>
+            {this.textForm()}
           </ImageBackground>
         ) : (
           <View
@@ -127,7 +118,7 @@ class AddScreen extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: 'lightgray',
-              height: height
+              height: 400
             }}>
             <Icon
               name='camera'
@@ -141,32 +132,6 @@ class AddScreen extends React.Component {
       </TouchableOpacity>
     );
   }
-
-  // 店名入力
-  // EnterShopName() {
-  //   return (
-  //     <View>
-  //       <Input
-  //         placeholder='店名を入力'
-  //         onChangeText={text => this.setState({ shopName: text })}
-  //         defaultValue={this.state.shopName}
-  //       />
-  //     </View>
-  //   );
-  // }
-
-  // テキスト入力
-  // EnterText() {
-  //   return (
-  //     <View>
-  //       <Input
-  //         placeholder='テキストを入力'
-  //         onChangeText={text => this.setState({ text: text })}
-  //         defaultValue={this.state.text}
-  //       />
-  //     </View>
-  //   );
-  // }
 
   // 投稿時の処理
   async onPressAdd() {
@@ -287,4 +252,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddScreen;
+export default PostLibrary;

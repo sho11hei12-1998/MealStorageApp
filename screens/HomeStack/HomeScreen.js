@@ -39,30 +39,11 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <SafeAreaView />
-        <View style={{ marginLeft: 30, marginBottom: 10 }}>
-          <Text>Hello</Text>
+        <View style={{ marginLeft: 30, marginBottom: 20, marginTop: 20 }}>
+          <Text style={{ fontSize: 25 }}>おはよう</Text>
         </View>
 
         {/* renderPostImage */}
-        {/* <ScrollView pagingEnabled={true}>
-          {allPosts.map((item, i) => {
-            console.log(item);
-            return (
-              <View
-                key={'post_' + i}
-                style={styles.itemCard_container}
-              >
-                <Image
-                  style={{
-                    width: 350,
-                    height: 350,
-                  }}
-                  source={{ uri: item.imgUrl }} />
-              </View>
-            );
-          })}
-        </ScrollView> */}
-
         <ScrollView
           pagingEnabled={true}
           style={{ alignSelf: 'center' }}
@@ -81,7 +62,7 @@ class HomeScreen extends React.Component {
                   resizeMode="cover"
                   source={{ uri: item.imgUrl }}
                   backgroundStyle={{
-                    height: 300,
+                    height: 400,
                   }}
                   onPress={() => this.props.navigation.navigate('Detail')}
                 />

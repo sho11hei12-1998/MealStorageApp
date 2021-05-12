@@ -10,6 +10,8 @@ class TakePicture extends React.Component {
       hasPermission: null,
       type: Camera.Constants.Type.back,
       flash_type: 'false',
+
+      photo: null,
     };
   }
 
@@ -22,6 +24,12 @@ class TakePicture extends React.Component {
   changeFlash = () => {
     this.setState({ flash_type: !this.state.flash_type });
   }
+
+  snap = async () => {
+    if (this.camera) {
+      let photo = await this.camera.takePictureAsync();
+    }
+  };
 
 
   render() {
@@ -37,14 +45,21 @@ class TakePicture extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Camera style={styles.camera} type={type}>
+        <Camera
+          style={styles.camera}
+          type={type}
+          ref={ref => {
+            this.camera = ref;
+          }}
+        >
           {/* cameraHeaderIcon */}
           <View style={styles.headerIcons}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}>
               <Icon
                 name='close'
                 type='material-icons'
-                color='lightgray'
+                color='white'
                 size={40}
               />
             </TouchableOpacity>
@@ -56,39 +71,68 @@ class TakePicture extends React.Component {
                     ? 'flash-on' : 'flash-off'
                 }
                 type='material-icons'
-                color='lightgray'
+                color='white'
                 size={40} />
 
             </TouchableOpacity>
             <TouchableOpacity>
               <Icon
                 name='settings'
-                type='material'
-                color='lightgray'
-                size={40}
-              />
-            </TouchableOpacity>
-          </View>
-          {/* camera反転button */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.camera_flip}
-              onPress={() => {
-                this.setState({
-                  type: type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                });
-              }}>
-              <Icon
-                name='camera'
-                type='material'
+                type='material-icons'
                 color='white'
                 size={40}
               />
             </TouchableOpacity>
           </View>
+
+          {/* camera_button */}
+          <TouchableOpacity
+            style={styles.camera_button}
+            onPress={photo => {
+              if (this.camera) {
+                this.camera.takePictureAsync().then(photo => {
+                  // カメラオブジェクト取得
+                  this.setState({ photo: photo });
+                  console.log(this.state.photo);
+                });
+              }
+            }} >
+            <Icon
+              name='radio-button-unchecked'
+              type='material'
+              color='white'
+              size={65}
+            />
+          </TouchableOpacity>
         </Camera>
+
+        <View style={styles.footerIcons}>
+          <TouchableOpacity>
+            <Icon
+              name='collections'
+              type='material'
+              color='gray'
+              size={40}
+            />
+          </TouchableOpacity>
+          {/* camera反転button */}
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                type: type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              });
+              console.log(this.state.type);
+            }}>
+            <Icon
+              name='flip-camera-ios'
+              type='material'
+              color='gray'
+              size={40}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -108,22 +152,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20
   },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
+  camera_button: {
+    marginBottom: 20
+  },
+  footerIcons: {
+    alignItems: 'flex-end',
     flexDirection: 'row',
-    margin: 20,
-  },
-  collections: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  camera_flip: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 10
+  }
+  // buttonContainer: {
+  //   flex: 1,
+  //   backgroundColor: 'transparent',
+  //   flexDirection: 'row',
+  //   margin: 20,
+  // },
+  // library: {
+  //   flex: 0.1,
+  //   alignSelf: 'flex-end',
+  //   alignItems: 'center',
+  // },
 });
 
 

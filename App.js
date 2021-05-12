@@ -70,6 +70,9 @@ function AddStackScreen() {
       initialRouteName='Add'
       headerMode="none"
       mode='modal'
+      tabBarOptions={{
+        tabBarVisible: false
+      }}
     >
       <AddStack.Screen name="Add" component={AddScreen} />
       <AddStack.Screen name="TakePicture" component={TakePicture} />

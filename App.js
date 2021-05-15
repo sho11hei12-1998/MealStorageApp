@@ -18,6 +18,7 @@ import SearchDetailScreen from 'app/screens/SearchDetailScreen';
 
 // Add
 import AddScreen from 'app/screens/AddStack/AddScreen';
+import PostScreen from 'app/screens/AddStack/PostScreen'
 import TakePicture from 'app/screens/AddStack/TakePicture';
 import PostLibrary from 'app/screens/AddStack/PostLibrary';
 
@@ -70,11 +71,12 @@ function AddStackScreen() {
       initialRouteName='Add'
       headerMode="none"
       mode='modal'
-      tabBarOptions={{
-        tabBarVisible: false
+      screenOptions={{
+        tabBarIcon: false
       }}
     >
       <AddStack.Screen name="Add" component={AddScreen} />
+      <AddStack.Screen name="Post" component={PostScreen} />
       <AddStack.Screen name="TakePicture" component={TakePicture} />
       <AddStack.Screen name="PostLibrary" component={PostLibrary} />
     </AddStack.Navigator>
@@ -171,7 +173,9 @@ function BottomTabStack() {
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="Search" component={SearchStackScreen} />
-      <Tab.Screen name="Add" component={AddStackScreen} />
+      <Tab.Screen name="Add" component={AddStackScreen}
+      // options={{ tabBarVisible: false, }}
+      />
       <Tab.Screen name="Favorite" component={FavoriteStackScreen} />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>

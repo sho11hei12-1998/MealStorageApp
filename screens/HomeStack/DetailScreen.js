@@ -8,9 +8,15 @@ class DetailScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      DetailPosts: [],
+      DetailPost: [],
     };
   }
+
+  // componentDidMount = () => {
+  //   const DetailPost = this.props.navigation.state.params;
+  //   this.setState({ DetailPost: DetailPost });
+  //   console.log(this.state.DetailPost);
+  // }
 
   render() {
     return (

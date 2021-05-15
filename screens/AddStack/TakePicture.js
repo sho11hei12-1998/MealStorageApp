@@ -88,7 +88,7 @@ class TakePicture extends React.Component {
           {/* camera_button */}
           <TouchableOpacity
             style={styles.camera_button}
-            onPress={photo => {
+            onPress={() => {
               if (this.camera) {
                 this.camera.takePictureAsync().then(photo => {
                   // カメラオブジェクト取得

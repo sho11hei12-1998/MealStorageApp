@@ -45,7 +45,6 @@ class HomeScreen extends React.Component {
 
         {/* renderPostImage */}
         <ScrollView
-          pagingEnabled={true}
           style={{ alignSelf: 'center' }}
         >
           {allPosts.map((item, i) => {
@@ -64,7 +63,7 @@ class HomeScreen extends React.Component {
                   backgroundStyle={{
                     height: 400,
                   }}
-                  onPress={() => this.props.navigation.navigate('Detail')}
+                  onPress={() => this.props.navigation.navigate('Detail', item)}
                 />
               </View>
             );

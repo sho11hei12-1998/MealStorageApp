@@ -11,10 +11,8 @@ import * as SplashScreen from 'expo-splash-screen';
 // Home
 import HomeScreen from 'app/screens/HomeStack/HomeScreen';
 import DetailScreen from 'app/screens/HomeStack/DetailScreen';
-
-// Search
-import SearchScreen from 'app/screens/SearchScreen';
-import SearchDetailScreen from 'app/screens/SearchDetailScreen';
+import SearchScreen from 'app/screens/HomeStack/SearchScreen';
+import SearchDetailScreen from 'app/screens/HomeStack/SearchDetailScreen';
 
 // Add
 import AddScreen from 'app/screens/AddStack/AddScreen';
@@ -22,13 +20,13 @@ import PostScreen from 'app/screens/AddStack/PostScreen'
 import TakePicture from 'app/screens/AddStack/TakePicture';
 import PostLibrary from 'app/screens/AddStack/PostLibrary';
 
-// Favorite
-import FavoriteScreen from 'app/screens/FavoriteScreen';
-
 // Profile
-import ProfileScreen from 'app/screens/ProfileScreen';
-import CategoryScreen from 'app/screens/CategoryScreen';
-import SettingsScreen from 'app/screens/SettingsScreen';
+import ProfileScreen from 'app/screens/MyPageStack/ProfileScreen';
+import ProfileEditing from 'app/screens/MyPageStack/ProfileEditing';
+import CategoryScreen from 'app/screens/MyPageStack/CategoryScreen';
+import MapScreen from 'app/screens/MyPageStack/MapScreen';
+import FriendsAddScreen from 'app/screens/MyPageStack/FriendsAddScreen';
+import SettingsScreen from 'app/screens/MyPageStack/SettingsScreen';
 
 // Auth
 import AuthHomeScreen from 'app/screens/Auth/AuthHomeScreen'
@@ -46,21 +44,10 @@ function HomeStackScreen() {
       headerMode="none"
     >
       <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Search" component={SearchScreen} />
+      <HomeStack.Screen name="SearchDetail" component={SearchDetailScreen} />
       <HomeStack.Screen name="Detail" component={DetailScreen} />
     </HomeStack.Navigator>
-  );
-}
-
-const SearchStack = createStackNavigator();
-function SearchStackScreen() {
-  return (
-    <SearchStack.Navigator
-      initialRouteName='Search'
-      headerMode="none"
-    >
-      <SearchStack.Screen name="Search" component={SearchScreen} />
-      <SearchStack.Screen name="SearchDetail" component={SearchDetailScreen} />
-    </SearchStack.Navigator>
   );
 }
 
@@ -72,7 +59,10 @@ function AddStackScreen() {
       headerMode="none"
       mode='modal'
       screenOptions={{
-        tabBarIcon: false
+        tabBarIcon: false,
+        gestureEnabled: true,
+        cardOverlayEnabled: true,
+        ...TransitionPresets.ModalPresentationIOS,
       }}
     >
       <AddStack.Screen name="Add" component={AddScreen} />
@@ -80,18 +70,6 @@ function AddStackScreen() {
       <AddStack.Screen name="TakePicture" component={TakePicture} />
       <AddStack.Screen name="PostLibrary" component={PostLibrary} />
     </AddStack.Navigator>
-  );
-}
-
-const FavoriteStack = createStackNavigator();
-function FavoriteStackScreen() {
-  return (
-    <FavoriteStack.Navigator
-      initialRouteName='Favorite'
-      headerMode='none'
-    >
-      <FavoriteStack.Screen name="Favorite" component={FavoriteScreen} />
-    </FavoriteStack.Navigator>
   );
 }
 
@@ -109,7 +87,10 @@ function ProfileStackScreen() {
       headerMode="none"
     >
       <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+      <ProfileStack.Screen name="ProfileEditing" component={ProfileEditing} />
       <ProfileStack.Screen name="Category" component={CategoryScreen} />
+      <ProfileStack.Screen name="Map" component={MapScreen} />
+      <ProfileStack.Screen name="FriendsAdd" component={FriendsAddScreen} />
       <ProfileStack.Screen name="Settings" component={SettingsScreen} />
     </ProfileStack.Navigator>
   );
@@ -143,19 +124,13 @@ function BottomTabStack() {
             iconName = focused
               ? 'home'
               : 'home';
-          } else if (route.name === 'Search') {
-            iconName = focused
-              ? 'search'
-              : 'search';
-          } else if (route.name === 'Add') {
+          }
+          else if (route.name === 'Add') {
             iconName = focused
               ? 'add'
               : 'add';
-          } else if (route.name === 'Favorite') {
-            iconName = focused
-              ? 'place'
-              : 'place';
-          } else if (route.name === 'Profile') {
+          }
+          else if (route.name === 'Profile') {
             iconName = focused
               ? 'person'
               : 'person';
@@ -172,11 +147,9 @@ function BottomTabStack() {
       }}
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Search" component={SearchStackScreen} />
       <Tab.Screen name="Add" component={AddStackScreen}
       // options={{ tabBarVisible: false, }}
       />
-      <Tab.Screen name="Favorite" component={FavoriteStackScreen} />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>
   );
@@ -227,6 +200,12 @@ export default class App extends React.Component {
       }
     });
   }
+
+  updateAddedPostState = childState => {
+    this.setState({
+      allPosts: [...this.state.allPosts, ...childState],
+    });
+  };
 
   render() {
     const { isReady, isAuth } = this.state;

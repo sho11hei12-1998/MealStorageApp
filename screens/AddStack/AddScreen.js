@@ -36,8 +36,7 @@ class AddScreen extends React.Component {
       location: null,
       errorMsg: null,
 
-      photo: null,
-      imgUrl: '',
+      imgUrl: null,
       shopName: '',
       text: '',
       addedPost: [],
@@ -71,6 +70,8 @@ class AddScreen extends React.Component {
     this.setState({ flash_type: !this.state.flash_type });
   }
 
+
+
   renderCamera() {
     const { cameraPermission, type } = this.state;
     return (
@@ -83,10 +84,9 @@ class AddScreen extends React.Component {
       >
         {/* cameraHeaderIcon */}
         <View style={styles.headerIcons}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.goBack()}>
+          <TouchableOpacity>
             <Icon
-              name='close'
+              name='settings'
               type='material-icons'
               color='white'
               size={40}
@@ -104,9 +104,10 @@ class AddScreen extends React.Component {
               size={40} />
 
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}>
             <Icon
-              name='settings'
+              name='close'
               type='material-icons'
               color='white'
               size={40}
@@ -121,8 +122,8 @@ class AddScreen extends React.Component {
             if (this.camera) {
               this.camera.takePictureAsync().then(photo => {
                 // カメラオブジェクト取得
-                this.setState({ photo: photo });
-                console.log(this.state.photo);
+                this.setState({ imgUrl: photo.uri });
+                console.log(this.state.imgUrl);
               });
             }
           }} >
@@ -138,6 +139,7 @@ class AddScreen extends React.Component {
   }
 
   renderFooter() {
+    const { type } = this.state;
     return (
       <View style={styles.footerIcons}>
         <TouchableOpacity>
@@ -156,7 +158,7 @@ class AddScreen extends React.Component {
                 ? Camera.Constants.Type.front
                 : Camera.Constants.Type.back
             });
-            console.log(this.state.type);
+            console.log('cameraType changed');
           }}>
           <Icon
             name='flip-camera-ios'
@@ -169,26 +171,30 @@ class AddScreen extends React.Component {
     );
   }
 
+  // カメラ撮影後
   renderImage() {
     return (
       <View>
-        <TouchableOpacity
-          onPress={() => this.setState({ photo: null })}>
-          <Icon
-            name='close'
-            type='material-icons'
-            color='black'
-            size={40}
-          />
-        </TouchableOpacity>
-        <Image
+        <ImageBackground
           style={{
             width: width,
-            height: height
+            height: height - 200,
+            borderRadius: 20
           }}
-          source={{ uri: this.state.photo.uri }}
-        />
-        <Button title='Submit' />
+          source={{ uri: this.state.imgUrl }}
+        >
+          <TouchableOpacity
+            onPress={() => this.setState({ imgUrl: null })}
+            style={{ alignItems: 'flex-start', marginLeft: 20 }}>
+            <Icon
+              name='close'
+              type='material-icons'
+              color='white'
+              size={40}
+            />
+          </TouchableOpacity>
+        </ImageBackground>
+        <Button title='次へ' onPress={() => this.props.navigation.navigate('Post', this.state.imgUrl)} />
       </View>
     );
   }
@@ -212,13 +218,13 @@ class AddScreen extends React.Component {
         <SafeAreaView />
 
         {/* camera描画 */}
-        {this.state.photo === null
+        {this.state.imgUrl === null
           ? this.renderCamera()
           : this.renderImage()
         }
 
         {/* renderFooter */}
-        {this.state.photo === null
+        {this.state.imgUrl === null
           ? this.renderFooter()
           : <View />
         }
@@ -234,7 +240,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   headerIcons: {
     flex: 1,

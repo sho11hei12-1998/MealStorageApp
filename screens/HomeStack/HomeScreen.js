@@ -8,6 +8,7 @@ import { AppleCard } from 'react-native-apple-card-views';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
+import Post from 'app/screens/AddStack/PostScreen';
 
 const { width, height } = Dimensions.get('window');
 class HomeScreen extends React.Component {
@@ -38,17 +39,36 @@ class HomeScreen extends React.Component {
     const { allPosts } = this.state;
     return (
       <View style={styles.container}>
-        <SafeAreaView />
+        {/* <SafeAreaView />
         <View style={{ marginLeft: 30, marginBottom: 20, marginTop: 20 }}>
           <Text style={{ fontSize: 25 }}>おはよう</Text>
-        </View>
+        </View> */}
+        <Header
+          backgroundColor="#fff"
+          placement="left"
+          leftComponent={{ text: 'おはよう', style: styles.headerStyle }}
+          rightComponent={
+            <View>
+              <TouchableOpacity
+                style={{ marginRight: 15 }}
+                onPress={() => this.props.navigation.navigate('Search')}
+              >
+                <Icon
+                  name='search'
+                  type='material-icons'
+                  color='black'
+                  size={25}
+                />
+              </TouchableOpacity>
+            </View>
+          } />
 
         {/* renderPostImage */}
         <ScrollView
-          style={{ alignSelf: 'center' }}
+          style={{ alignSelf: 'center', marginTop: 20 }}
         >
           {allPosts.map((item, i) => {
-            console.log(item);
+            {/* console.log(item); */ }
             return (
               <View
                 key={'post_' + i}
@@ -81,8 +101,9 @@ const styles = StyleSheet.create({
   },
   headerStyle: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
+    marginLeft: 20
   },
   itemCard_container: {
     marginBottom: 30

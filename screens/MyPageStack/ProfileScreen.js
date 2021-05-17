@@ -6,8 +6,8 @@ import {
 import { Icon, Header } from 'react-native-elements';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import MyPage_1 from 'app/screens/MyPage_1';
-import MyPage_2 from 'app/screens/MyPage_2';
+import MyPage_1 from 'app/screens/MyPageStack/MyPage_1';
+import MyPage_2 from 'app/screens/MyPageStack/MyPage_2';
 
 const TopTab = createMaterialTopTabNavigator();
 class ProfileScreen extends React.Component {
@@ -42,10 +42,21 @@ class ProfileScreen extends React.Component {
       <View style={styles.container}>
         <Header
           backgroundColor="#fff"
-          placement="center"
-          centerComponent={{ text: 'MyPage', style: styles.headerStyle }}
+          placement="left"
+          leftComponent={{ text: 'MyPage', style: styles.headerStyle }}
           rightComponent={
-            <View>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity
+                style={{ marginRight: 15 }}
+                onPress={() => this.props.navigation.navigate('FriendsAdd')}
+              >
+                <Icon
+                  name='person-add'
+                  type='material-icons'
+                  color='black'
+                  size={25}
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 style={{ marginRight: 15 }}
                 onPress={() => this.props.navigation.navigate('Settings')}
@@ -78,8 +89,8 @@ class ProfileScreen extends React.Component {
               <Text>posts</Text>
             </View>
             <View style={styles.MyPage_status}>
-              <Text>800</Text>
-              <Text>follower</Text>
+              <Text>20</Text>
+              <Text>friends</Text>
             </View>
             <View style={styles.MyPage_status}>
               <Text>50</Text>
@@ -99,13 +110,26 @@ class ProfileScreen extends React.Component {
             overflow: "hidden",
             alignItems: 'center'
           }}
-          onPress={() => this.props.navigation.navigate('')}
+          onPress={() => this.props.navigation.navigate('ProfileEditing')}
         >
           <Text>プロフィールを編集する</Text>
         </TouchableOpacity>
 
         {/* TopTab描画 */}
         {this.MyPageTab()}
+
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Map')}
+          style={{ position: 'absolute', bottom: 20, right: 20 }}
+        >
+          <Icon
+            reverse
+            name='place'
+            type='material-icons'
+            color='orange'
+            size={30}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -120,6 +144,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 25
   },
   MyPage_status: {
     padding: 10,

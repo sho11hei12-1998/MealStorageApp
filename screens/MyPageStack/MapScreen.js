@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity, Dimensions, SafeAreaView,
-  ScrollView, Animated, AppRegistry, Image
+  ScrollView, Animated, AppRegistry, Image,
 } from 'react-native';
 import { Icon, Header, Card, Button } from 'react-native-elements';
 import MapView from 'react-native-maps';
@@ -127,6 +127,19 @@ class FavoriteScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <SafeAreaView />
+        <TouchableOpacity
+          onPress={() => this.props.navigation.goBack()}
+          style={{ alignSelf: 'flex-start', marginLeft: 20 }}
+        >
+          <Icon
+            name='close'
+            type='material-icons'
+            color='black'
+            size={30}
+          />
+        </TouchableOpacity>
+
         <MapView
           ref={map => this.map = map}
           initialRegion={this.state.region}
@@ -200,6 +213,13 @@ class FavoriteScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  topNav: {
+    fontSize: 20,
+    padding: 10,
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20
   },
   scrollView: {
     position: "absolute",

@@ -1,8 +1,12 @@
 import React from 'react';
+import { ImageBackground } from 'react-native';
 import {
-  StyleSheet, Text, View, Button, TouchableOpacity, Image
+  StyleSheet, Text, View, Button, TouchableOpacity, Image,
+  SafeAreaView, Dimensions
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+const { width, height } = Dimensions.get('window');
 
 class DetailScreen extends React.Component {
   constructor(props) {
@@ -12,57 +16,39 @@ class DetailScreen extends React.Component {
     };
   }
 
-  // componentDidMount = () => {
-  //   const DetailPost = this.props.navigation.state.params;
-  //   this.setState({ DetailPost: DetailPost });
-  //   console.log(this.state.DetailPost);
-  // }
+  componentDidMount = async () => {
+    const DetailPost = this.props.route.params;
+    await this.setState({ DetailPost: DetailPost });
+    console.log(this.state.DetailPost);
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Image
+          <ImageBackground
             style={{
-              width: 350,
-              height: 350,
+              width: width,
+              height: width,
             }}
-          // source={{ uri: item.imgUrl }}
-          />
+            source={{ uri: this.state.DetailPost.imgUrl }}
+          >
+            <SafeAreaView />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}
+              style={{ alignSelf: 'flex-start', marginLeft: 20, }}
+            >
+              <Icon
+                reverse
+                name='close'
+                type='material-icons'
+                color='gray'
+                size={20}
+              />
+            </TouchableOpacity>
+          </ImageBackground>
         </View>
-        {/* <View style={{ alignItems: 'flex-end' }}>
-          <Icon
-            name='heart'
-            type='material-community'
-            color='gray'
-            size={30}
-            style={{ margin: 10 }}
-          />
-          <Icon
-            name='comment'
-            type='material-community'
-            color='gray'
-            size={30}
-            style={{ margin: 10 }}
-          />
-          <Icon
-            name='share'
-            type='material-community'
-            color='gray'
-            size={30}
-            style={{ margin: 10 }}
-          />
-          <TouchableOpacity>
-            <Icon
-              reverse
-              name='person'
-              type='material-icons'
-              color='orange'
-              size={20}
-              style={{ marginRight: 30 }}
-            />
-          </TouchableOpacity>
-        </View> */}
+
       </View>
     );
   }

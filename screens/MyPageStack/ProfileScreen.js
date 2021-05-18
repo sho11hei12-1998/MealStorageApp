@@ -11,6 +11,31 @@ import MyPage_2 from 'app/screens/MyPageStack/MyPage_2';
 
 const TopTab = createMaterialTopTabNavigator();
 class ProfileScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      myPosts: [],
+    };
+    //  Firestoreのデータを読みこむ 
+    this.downloadMyPosts();
+  }
+
+  // addPostModal.jsで追加した投稿をchildStateとして受け取り、HomeScreenで全投稿を管理する
+  // updateAddedPostState = childState => {
+  //   this.setState({
+  //     myPosts: [...this.state.allPosts, ...childState],
+  //   });
+  // };
+
+  async downloadMyPosts() {
+    const posts = await Fire.shared.getPosts();
+    // 自分の投稿のみ読み込む
+    const myPosts = await posts
+    this.setState({
+      myPosts: myPosts,
+    });
+  }
+
   // TopTab
   MyPageTab() {
     return (

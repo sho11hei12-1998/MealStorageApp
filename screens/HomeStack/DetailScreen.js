@@ -29,7 +29,7 @@ class DetailScreen extends React.Component {
           <ImageBackground
             style={{
               width: width,
-              height: width,
+              height: height,
             }}
             source={{ uri: this.state.DetailPost.imgUrl }}
           >

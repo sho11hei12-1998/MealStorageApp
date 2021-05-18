@@ -8,7 +8,6 @@ import { AppleCard } from 'react-native-apple-card-views';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
-import Post from 'app/screens/AddStack/PostScreen';
 
 const { width, height } = Dimensions.get('window');
 class HomeScreen extends React.Component {
@@ -21,7 +20,7 @@ class HomeScreen extends React.Component {
     this.downloadAllPosts();
   }
 
-  // addPostModal.jsで追加した投稿をchildStateとして受け取り、PostScreenで全投稿を管理する
+  // addPostModal.jsで追加した投稿をchildStateとして受け取り、HomeScreenで全投稿を管理する
   updateAddedPostState = childState => {
     this.setState({
       allPosts: [...this.state.allPosts, ...childState],
@@ -39,10 +38,7 @@ class HomeScreen extends React.Component {
     const { allPosts } = this.state;
     return (
       <View style={styles.container}>
-        {/* <SafeAreaView />
-        <View style={{ marginLeft: 30, marginBottom: 20, marginTop: 20 }}>
-          <Text style={{ fontSize: 25 }}>おはよう</Text>
-        </View> */}
+        {/* <SafeAreaView /> */}
         <Header
           backgroundColor="#fff"
           placement="left"
@@ -61,11 +57,12 @@ class HomeScreen extends React.Component {
                 />
               </TouchableOpacity>
             </View>
-          } />
+          }
+        />
 
         {/* renderPostImage */}
         <ScrollView
-          style={{ alignSelf: 'center', marginTop: 20 }}
+          style={{ alignSelf: 'center', paddingTop: 10 }}
         >
           {allPosts.map((item, i) => {
             {/* console.log(item); */ }

@@ -42,6 +42,12 @@ function HomeStackScreen() {
     <HomeStack.Navigator
       initialRouteName='Home'
       headerMode="none"
+      screenOptions={{
+        gestureEnabled: true,
+        cardOverlayEnabled: true,
+        ...TransitionPresets.ModalPresentationIOS,
+      }}
+      tabBarOptions={{ tabBarVisible: false }}
     >
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Search" component={SearchScreen} />
@@ -82,7 +88,10 @@ function ProfileStackScreen() {
         headerTintColor: "#ffffff",
         headerStyle: {
           backgroundColor: "#333399",
-        }
+        },
+        gestureEnabled: true,
+        cardOverlayEnabled: true,
+        ...TransitionPresets.ModalPresentationIOS,
       }}
       headerMode="none"
     >
@@ -148,7 +157,7 @@ function BottomTabStack() {
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="Add" component={AddStackScreen}
-      // options={{ tabBarVisible: false, }}
+        options={{ tabBarVisible: false, }}
       />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>
@@ -233,5 +242,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white'
   },
 });

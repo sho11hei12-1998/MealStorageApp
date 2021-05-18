@@ -21,7 +21,7 @@ class FriendsAddScreen extends React.Component {
           onChangeText={text => this.setState({ search: text })}
           value={this.state.search}
           returnKeyType='search'
-          style={{ marginBottom: 20, marginHorizontal: 20 }}
+          style={{ marginTop: 20, marginBottom: 20, marginHorizontal: 20 }}
         />
       </View>
     );

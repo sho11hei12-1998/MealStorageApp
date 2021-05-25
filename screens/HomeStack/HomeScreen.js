@@ -4,9 +4,8 @@ import {
   StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ScrollView, SafeAreaView,
 } from 'react-native';
 import { Icon, Header } from 'react-native-elements';
-import { AppleCard } from 'react-native-apple-card-views';
+import { AppleCard, AppOfTheDayCard } from 'react-native-apple-card-views';
 
-import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
 
 const { width, height } = Dimensions.get('window');
@@ -15,6 +14,7 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       allPosts: [],
+      stock_status: false,
     };
     //  Firestoreのデータを読みこむ 
     this.downloadAllPosts();
@@ -32,6 +32,11 @@ class HomeScreen extends React.Component {
     this.setState({
       allPosts: posts,
     });
+  }
+
+  stockItem(i) {
+    this.setState({ stock_status: !this.state.stock_status });
+    console.log("stock_status Changed!");
   }
 
   render() {
@@ -72,9 +77,10 @@ class HomeScreen extends React.Component {
                 style={styles.itemCard_container}
               >
                 <AppleCard
-                  smallTitle=""
+                  smallTitle="焼肉"
                   largeTitle={item.shopName}
                   footnoteText={item.text}
+                  footnoteTextStyle={{ fontSize: 20 }}
                   resizeMode="cover"
                   source={{ uri: item.imgUrl }}
                   backgroundStyle={{
@@ -82,6 +88,18 @@ class HomeScreen extends React.Component {
                   }}
                   onPress={() => this.props.navigation.navigate('Detail', item)}
                 />
+                <TouchableOpacity
+                  onPress={() => this.stockItem(i)}>
+                  <Icon
+                    name={
+                      this.state.stock_status === false
+                        ? 'turned-in-not' : 'done'
+                    }
+                    type='material-icons'
+                    color='black'
+                    size={35}
+                  />
+                </TouchableOpacity>
               </View>
             );
           })}

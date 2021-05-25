@@ -9,6 +9,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import MyPage_1 from 'app/screens/MyPageStack/MyPage_1';
 import MyPage_2 from 'app/screens/MyPageStack/MyPage_2';
 
+import Fire from 'app/screens/Fire_Posts';
+
 const TopTab = createMaterialTopTabNavigator();
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -29,42 +31,14 @@ class ProfileScreen extends React.Component {
 
   async downloadMyPosts() {
     const posts = await Fire.shared.getPosts();
-    // 自分の投稿のみ読み込む
-    const myPosts = await posts
     this.setState({
-      myPosts: myPosts,
+      myPosts: posts,
     });
   }
 
-  // TopTab
-  MyPageTab() {
+  myPage_header() {
     return (
-      <TopTab.Navigator
-        initialRouteName="MyPage_1"
-        tabBarOptions={{
-          activeTintColor: 'black',
-          inactiveTintColor: 'gray',
-          activeBackgroundColor: 'white',
-          inactiveBackgroundColor: 'white',
-        }}
-      >
-        <TopTab.Screen
-          name="MyPage_1"
-          component={MyPage_1}
-          options={{ tabBarLabel: 'Post' }}
-        />
-        <TopTab.Screen
-          name="MyPage_2"
-          component={MyPage_2}
-          options={{ tabBarLabel: 'Stock' }}
-        />
-      </TopTab.Navigator>
-    );
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
+      <View>
         <Header
           backgroundColor="#fff"
           placement="left"
@@ -96,6 +70,14 @@ class ProfileScreen extends React.Component {
             </View>
           }
         />
+
+      </View>
+    );
+  }
+
+  userInfo() {
+    return (
+      <View>
         <View style={{ flexDirection: 'row', marginHorizontal: 30, }}>
           <View style={{ alignItems: 'flex-start', marginRight: 40 }}>
             <TouchableOpacity>
@@ -139,12 +121,51 @@ class ProfileScreen extends React.Component {
         >
           <Text>プロフィールを編集する</Text>
         </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // TopTab
+  MyPageTab() {
+    return (
+      <TopTab.Navigator
+        initialRouteName="MyPage_1"
+        tabBarOptions={{
+          activeTintColor: 'black',
+          inactiveTintColor: 'gray',
+          activeBackgroundColor: 'white',
+          inactiveBackgroundColor: 'white',
+        }}
+      >
+        <TopTab.Screen
+          name="MyPage_1"
+          component={MyPage_1}
+          options={{ tabBarLabel: 'Post' }}
+        />
+        <TopTab.Screen
+          name="MyPage_2"
+          component={MyPage_2}
+          options={{ tabBarLabel: 'Stock' }}
+        />
+      </TopTab.Navigator>
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {/* Header描画 */}
+        {this.myPage_header()}
+
+        {/* userInfo描画 */}
+        {this.userInfo()}
 
         {/* TopTab描画 */}
         {this.MyPageTab()}
 
+        {/* Mapボタン */}
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Map')}
+          onPress={() => this.props.navigation.navigate('Map', this.state.myPosts)}
           style={{ position: 'absolute', bottom: 20, right: 20 }}
         >
           <Icon

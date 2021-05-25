@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { Icon, Card } from 'react-native-elements';
 
+import Fire from 'app/screens/Fire_Posts';
+
+
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const category_item = [
@@ -32,6 +35,28 @@ const category_item = [
   },
 ];
 class MyPage_2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stockPosts: [],
+    };
+    //  Firestoreのデータを読みこむ 
+    this.downloadMyPosts();
+  }
+
+  // addPostModal.jsで追加した投稿をchildStateとして受け取り、HomeScreenで全投稿を管理する
+  // updateAddedPostState = childState => {
+  //   this.setState({
+  //     myPosts: [...this.state.allPosts, ...childState],
+  //   });
+  // };
+
+  async downloadMyPosts() {
+    const posts = await Fire.shared.getPosts();
+    await this.setState({
+      stockPosts: posts,
+    });
+  }
 
   render() {
     return (

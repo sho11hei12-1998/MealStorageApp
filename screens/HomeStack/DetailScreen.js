@@ -36,7 +36,7 @@ class DetailScreen extends React.Component {
             <SafeAreaView />
             <TouchableOpacity
               onPress={() => this.props.navigation.goBack()}
-              style={{ alignSelf: 'flex-start', marginLeft: 20, }}
+              style={{ alignSelf: 'flex-start', marginLeft: 10, }}
             >
               <Icon
                 reverse

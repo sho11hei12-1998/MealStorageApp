@@ -47,12 +47,12 @@ function HomeStackScreen() {
         cardOverlayEnabled: true,
         ...TransitionPresets.ModalPresentationIOS,
       }}
-      tabBarOptions={{ tabBarVisible: false }}
+      options={{ tabBarVisible: false }}
     >
       <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen name="Search" component={SearchScreen} />
       <HomeStack.Screen name="SearchDetail" component={SearchDetailScreen} />
-      <HomeStack.Screen name="Detail" component={DetailScreen} />
+      <HomeStack.Screen name="Detail" component={DetailScreen} options={{ headerShown: false }} />
     </HomeStack.Navigator>
   );
 }
@@ -70,6 +70,7 @@ function AddStackScreen() {
         cardOverlayEnabled: true,
         ...TransitionPresets.ModalPresentationIOS,
       }}
+      options={{ tabBarVisible: false }}
     >
       <AddStack.Screen name="Add" component={AddScreen} />
       <AddStack.Screen name="Post" component={PostScreen} />
@@ -126,9 +127,10 @@ function BottomTabStack() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({ route }) => ({
+      screenOptions={({ route, navigation, index }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
+
           if (route.name === 'Home') {
             iconName = focused
               ? 'home'
@@ -138,6 +140,9 @@ function BottomTabStack() {
             iconName = focused
               ? 'add'
               : 'add';
+            if (route.index === -1) {
+              return null
+            }
           }
           else if (route.name === 'Profile') {
             iconName = focused
@@ -157,7 +162,9 @@ function BottomTabStack() {
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="Add" component={AddStackScreen}
-        options={{ tabBarVisible: false, }}
+        options={{
+          tabBarVisible: false,
+        }}
       />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />
     </Tab.Navigator>

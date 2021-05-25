@@ -9,6 +9,8 @@ const { width, height } = Dimensions.get('window');
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
 
+import HomeScreen from 'app/screens/HomeStack/HomeScreen';
+
 class PostScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -125,6 +127,8 @@ class PostScreen extends React.Component {
 
           {/* description */}
           {this.render_text()}
+
+          <Button title='下書き保存' />
 
           <Button
             title='シェア'

@@ -19,13 +19,6 @@ class MyPage_1 extends React.Component {
     this.downloadMyPosts();
   }
 
-  // addPostModal.jsで追加した投稿をchildStateとして受け取り、HomeScreenで全投稿を管理する
-  // updateAddedPostState = childState => {
-  //   this.setState({
-  //     myPosts: [...this.state.allPosts, ...childState],
-  //   });
-  // };
-
   async downloadMyPosts() {
     const posts = await Fire.shared.getPosts();
     await this.setState({
@@ -38,21 +31,26 @@ class MyPage_1 extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          {myPosts.map((item, i) => {
-            return (
-              <View key={'post_' + i}>
-                <Image
-                  style={{
-                    width: width / 2.2,
-                    height: 250,
-                    margin: 5,
-                    borderRadius: 10
-                  }}
-                  source={{ uri: item.imgUrl }}
-                />
-              </View>
-            );
-          })}
+          {myPosts
+            .sort((a, b) => b.postIndex - a.postIndex)
+            .map((item, i) => {
+              return (
+                <View key={'post_' + i}>
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('MyPostDetail', item)}>
+                    <Image
+                      style={{
+                        width: width / 2.2,
+                        height: 250,
+                        margin: 5,
+                        borderRadius: 10
+                      }}
+                      source={{ uri: item.imgUrl }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
         </View>
       </ScrollView>
     );

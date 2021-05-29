@@ -20,12 +20,12 @@ class HomeScreen extends React.Component {
     this.downloadAllPosts();
   }
 
-  // addPostModal.jsで追加した投稿をchildStateとして受け取り、HomeScreenで全投稿を管理する
-  updateAddedPostState = childState => {
-    this.setState({
-      allPosts: [...this.state.allPosts, ...childState],
-    });
-  };
+  componentDidMount = async () => {
+    if (this.props.route.params != null) {
+      const post = this.props.route.params;
+      await this.setState({ allPosts: post });
+    }
+  }
 
   async downloadAllPosts() {
     const posts = await Fire.shared.getPosts();
@@ -69,40 +69,42 @@ class HomeScreen extends React.Component {
         <ScrollView
           style={{ alignSelf: 'center', paddingTop: 10 }}
         >
-          {allPosts.map((item, i) => {
-            {/* console.log(item); */ }
-            return (
-              <View
-                key={'post_' + i}
-                style={styles.itemCard_container}
-              >
-                <AppleCard
-                  smallTitle="焼肉"
-                  largeTitle={item.shopName}
-                  footnoteText={item.text}
-                  footnoteTextStyle={{ fontSize: 20 }}
-                  resizeMode="cover"
-                  source={{ uri: item.imgUrl }}
-                  backgroundStyle={{
-                    height: 400,
-                  }}
-                  onPress={() => this.props.navigation.navigate('Detail', item)}
-                />
-                <TouchableOpacity
-                  onPress={() => this.stockItem(i)}>
-                  <Icon
-                    name={
-                      this.state.stock_status === false
-                        ? 'turned-in-not' : 'done'
-                    }
-                    type='material-icons'
-                    color='black'
-                    size={35}
+          {allPosts
+            .sort((a, b) => b.postIndex - a.postIndex)
+            .map((item, i) => {
+              {/* console.log(item); */ }
+              return (
+                <View
+                  key={'post_' + i}
+                  style={styles.itemCard_container}
+                >
+                  <AppleCard
+                    smallTitle="焼肉"
+                    largeTitle={item.shopName}
+                    footnoteText={item.text}
+                    footnoteTextStyle={{ fontSize: 20 }}
+                    resizeMode="cover"
+                    source={{ uri: item.imgUrl }}
+                    backgroundStyle={{
+                      height: 400,
+                    }}
+                    onPress={() => this.props.navigation.navigate('Detail', item)}
                   />
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+                  <TouchableOpacity
+                    onPress={() => this.stockItem(i)}>
+                    <Icon
+                      name={
+                        this.state.stock_status === false
+                          ? 'turned-in-not' : 'done'
+                      }
+                      type='material-icons'
+                      color='black'
+                      size={35}
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
         </ScrollView>
       </View>
     );

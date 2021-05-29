@@ -27,11 +27,34 @@ class Fire {
         shopName,
         text,
         postIndex,
+        itemHide: false,
+        createdAt: new Date().toLocaleString(),
+        updatedAt: new Date().toLocaleString(),
       })
       .then(() => {
+        alert('投稿が完了しました');
         console.log('書き込みができました');
       });
   };
+
+  // 投稿の編集（投稿の非表示）
+  notDisplayPost = async ({ postIndex }) => {
+    const updateRef = await this.postCollection.doc(postIndex);
+    // const item_status = updateRef.get('itemHide');
+    // console.log(item_status);
+    updateRef
+      .update({
+        itemHide: true,
+        updatedAt: new Date().toLocaleString(),
+      });
+  }
+
+  // 投稿の削除
+  deletePost = async ({ postIndex }) => {
+    const deleteRef = await this.postCollection.doc(postIndex);
+    deleteRef
+      .delete()
+  }
 
   // Firestoreに保存した情報をPostScreenで取得し、setStateする際の処理
   getPosts = async () => {

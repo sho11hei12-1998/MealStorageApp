@@ -17,12 +17,11 @@ import SearchDetailScreen from 'app/screens/HomeStack/SearchDetailScreen';
 // Add
 import AddScreen from 'app/screens/AddStack/AddScreen';
 import PostScreen from 'app/screens/AddStack/PostScreen'
-import TakePicture from 'app/screens/AddStack/TakePicture';
-import PostLibrary from 'app/screens/AddStack/PostLibrary';
 
 // Profile
 import ProfileScreen from 'app/screens/MyPageStack/ProfileScreen';
 import ProfileEditing from 'app/screens/MyPageStack/ProfileEditing';
+import MyPostDetail from 'app/screens/MyPageStack/MyPostDetail';
 import CategoryScreen from 'app/screens/MyPageStack/CategoryScreen';
 import MapScreen from 'app/screens/MyPageStack/MapScreen';
 import FriendsAddScreen from 'app/screens/MyPageStack/FriendsAddScreen';
@@ -74,8 +73,6 @@ function AddStackScreen() {
     >
       <AddStack.Screen name="Add" component={AddScreen} />
       <AddStack.Screen name="Post" component={PostScreen} />
-      <AddStack.Screen name="TakePicture" component={TakePicture} />
-      <AddStack.Screen name="PostLibrary" component={PostLibrary} />
     </AddStack.Navigator>
   );
 }
@@ -98,6 +95,7 @@ function ProfileStackScreen() {
     >
       <ProfileStack.Screen name="Profile" component={ProfileScreen} />
       <ProfileStack.Screen name="ProfileEditing" component={ProfileEditing} />
+      <ProfileStack.Screen name="MyPostDetail" component={MyPostDetail} />
       <ProfileStack.Screen name="Category" component={CategoryScreen} />
       <ProfileStack.Screen name="Map" component={MapScreen} />
       <ProfileStack.Screen name="FriendsAdd" component={FriendsAddScreen} />

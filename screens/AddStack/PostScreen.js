@@ -9,85 +9,14 @@ const { width, height } = Dimensions.get('window');
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
 
-import HomeScreen from 'app/screens/HomeStack/HomeScreen';
-
 class PostScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imgUrl: null,
       shopName: '',
       text: '',
-      addedPost: [],
+      textInfo: [],
     };
-  }
-
-  componentDidMount = () => {
-    const imgUrl = this.props.route.params;
-    this.setState({ imgUrl: imgUrl });
-  }
-
-  uploadPostImg = async () => {
-    const metadata = {
-      contentType: 'image/jpeg',
-    };
-    const postIndex = Date.now().toString();
-    const storage = firebase.storage();
-    const imgURI = this.state.imgUrl;
-    const response = await fetch(imgURI);
-    const blob = await response.blob();
-    const uploadRef = storage.ref('images').child(`${postIndex}`);
-
-    // storageに画像を保存
-    await uploadRef.put(blob, metadata).catch(() => {
-      alert('画像の保存に失敗しました');
-    });
-
-    // storageのダウンロードURLをsetStateする
-    await uploadRef
-      .getDownloadURL()
-      .then(url => {
-        this.setState({
-          imgUrl: url,
-          postIndex,
-        });
-      })
-      .catch(() => {
-        alert('失敗しました');
-      });
-  };
-  // stateに入っているダウンロードURLなどをFirestoreに記述する
-  uploadPost(url, shopName, text, postIndex) {
-    Fire.shared.uploadPost({
-      url,
-      shopName,
-      text,
-      postIndex,
-    });
-  }
-  // HomeScreen.jsで投稿データのstateを管理する
-  updateAddedPostState() {
-    this.props.updateAddedPostState(this.state.addedPost);
-  }
-  // 投稿時の処理
-  async onPressAdd() {
-    await this.uploadPostImg();
-    const { imgUrl, shopName, text, postIndex } = await this.state;
-    this.uploadPost(imgUrl, shopName, text, postIndex);
-    this.setState(
-      {
-        addedPost: [
-          {
-            imgUrl,
-            shopName,
-            text,
-            postIndex,
-          },
-        ],
-      },
-      () => this.updateAddedPostState(),
-      this.props.navigation.navigate('Home')
-    );
   }
 
   // shopName
@@ -118,6 +47,27 @@ class PostScreen extends React.Component {
     );
   }
 
+  updateTextInfoState() {
+    this.props.updateTextInfoState(this.state.textInfo);
+  };
+
+  async onPressSave() {
+    const { shopName, text } = await this.state;
+    this.setState(
+      {
+        textInfo: [
+          {
+            shopName,
+            text,
+          },
+        ],
+      },
+      () => console.log(this.state.textInfo),
+      this.updateTextInfoState(),
+      // this.props.navigation.goBack()
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -128,13 +78,11 @@ class PostScreen extends React.Component {
           {/* description */}
           {this.render_text()}
 
-          <Button title='下書き保存' />
-
           <Button
-            title='シェア'
-            onPress={() => this.onPressAdd()}
-          // onPress={() => console.log(this.props.navigation.navigate('Home'))}
+            title='保存'
+            onPress={() => this.onPressSave()}
           />
+
         </ScrollView>
       </View>
     );

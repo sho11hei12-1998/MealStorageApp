@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity, Image, Dimensions,
-  ImageBackground,
+  ImageBackground, Button,
   SafeAreaView
 } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
-import { Icon, Input, Button, Header } from 'react-native-elements';
+import { Icon, Input, Header } from 'react-native-elements';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -15,12 +14,8 @@ import { Camera } from 'expo-camera';
 
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
-import TakePicture from 'app/screens/AddStack/TakePicture';
-import PostLibrary from 'app/screens/AddStack/PostLibrary';
-import { render } from 'react-dom';
 
 const { width, height } = Dimensions.get('window');
-const AddTopTab = createMaterialTopTabNavigator();
 
 class AddScreen extends React.Component {
   constructor(props) {
@@ -37,8 +32,9 @@ class AddScreen extends React.Component {
       errorMsg: null,
 
       imgUrl: null,
-      shopName: '',
-      text: '',
+      shopName: 'test',
+      text: 'test',
+      textInfo: [],
       addedPost: [],
     };
   }
@@ -47,7 +43,7 @@ class AddScreen extends React.Component {
     // camera permission
     const { status } = await Camera.requestPermissionsAsync();
     this.setState({ cameraPermission: status });
-    console.log(this.state.cameraPermission);
+    console.log('camera permission: ' + this.state.cameraPermission);
     if (this.state.cameraPermission === null || this.state.cameraPermission === false) {
       alert('カメラのアクセスが許可されていません。')
     }
@@ -70,7 +66,70 @@ class AddScreen extends React.Component {
     this.setState({ flash_type: !this.state.flash_type });
   }
 
+  uploadPostImg = async () => {
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
+    const postIndex = Date.now().toString();
+    const storage = firebase.storage();
+    const imgURI = this.state.imgUrl;
+    const response = await fetch(imgURI);
+    const blob = await response.blob();
+    const uploadRef = storage.ref('images').child(`${postIndex}`);
 
+    // storageに画像を保存
+    await uploadRef.put(blob, metadata).catch(() => {
+      alert('画像の保存に失敗しました');
+    });
+
+    // storageのダウンロードURLをsetStateする
+    await uploadRef
+      .getDownloadURL()
+      .then(url => {
+        this.setState({
+          imgUrl: url,
+          postIndex,
+        });
+      })
+      .catch(() => {
+        alert('失敗しました');
+      });
+  };
+  // stateに入っているダウンロードURLなどをFirestoreに記述する
+  uploadPost(url, shopName, text, postIndex) {
+    Fire.shared.uploadPost({
+      url,
+      shopName,
+      text,
+      postIndex,
+    });
+  }
+  // 投稿時の処理
+  async onPressAdd() {
+    await this.uploadPostImg();
+    const { imgUrl, shopName, text, postIndex } = await this.state;
+    this.uploadPost(imgUrl, shopName, text, postIndex);
+    this.setState(
+      {
+        addedPost: [
+          {
+            imgUrl,
+            shopName,
+            text,
+            postIndex,
+          },
+        ],
+      },
+    );
+    // stateリセット
+    this.setState({
+      imgUrl: null,
+      shopName: 'test',
+      text: 'test',
+    });
+    // HomeScreenに遷移し、同時に投稿情報を付与
+    this.props.navigation.navigate('Home', this.state.addedPost)
+  }
 
   renderCamera() {
     const { cameraPermission, type } = this.state;
@@ -194,7 +253,16 @@ class AddScreen extends React.Component {
             />
           </TouchableOpacity>
         </ImageBackground>
-        <Button title='次へ' onPress={() => this.props.navigation.navigate('Post', this.state.imgUrl)} />
+        {/* <Button
+          title='次へ'
+          onPress={() => this.props.navigation.navigate('Post', this.state.imgUrl)}
+
+        /> */}
+
+        <Button
+          title='シェア'
+          onPress={() => this.onPressAdd()}
+        />
       </View>
     );
   }
@@ -205,7 +273,7 @@ class AddScreen extends React.Component {
 
     // location
     const { location, errorMsg } = this.state;
-    let text = 'Waiting..';
+    let text = 'Location Waiting..';
     if (errorMsg) {
       text = errorMsg;
     } else if (location) {

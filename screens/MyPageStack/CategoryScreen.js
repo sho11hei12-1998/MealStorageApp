@@ -65,27 +65,29 @@ class CategoryScreen extends React.Component {
         <ScrollView
           style={{ alignSelf: 'center', paddingTop: 10 }}
         >
-          {stockPosts.map((item, i) => {
-            {/* console.log(item); */ }
-            return (
-              <View
-                key={'post_' + i}
-                style={styles.itemCard_container}
-              >
-                <AppleCard
-                  smallTitle=""
-                  largeTitle={item.shopName}
-                  footnoteText={item.text}
-                  resizeMode="cover"
-                  source={{ uri: item.imgUrl }}
-                  backgroundStyle={{
-                    height: 300,
-                  }}
-                  onPress={() => this.props.navigation.navigate('Detail', item)}
-                />
-              </View>
-            );
-          })}
+          {stockPosts
+            .sort((a, b) => b.postIndex - a.postIndex)
+            .map((item, i) => {
+              {/* console.log(item); */ }
+              return (
+                <View
+                  key={'post_' + i}
+                  style={styles.itemCard_container}
+                >
+                  <AppleCard
+                    smallTitle=""
+                    largeTitle={item.shopName}
+                    footnoteText={item.text}
+                    resizeMode="cover"
+                    source={{ uri: item.imgUrl }}
+                    backgroundStyle={{
+                      height: 300,
+                    }}
+                    onPress={() => this.props.navigation.navigate('Detail', item)}
+                  />
+                </View>
+              );
+            })}
         </ScrollView>
       </View>
     );

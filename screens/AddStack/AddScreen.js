@@ -32,9 +32,12 @@ class AddScreen extends React.Component {
       errorMsg: null,
 
       imgUrl: null,
-      shopName: 'test',
+      shopName: 'Title text',
       text: 'test',
-      textInfo: [],
+      category: '焼肉',
+      prefecture: '福井県',
+      // location: '',
+      // textInfo: [],
       addedPost: [],
     };
   }
@@ -96,19 +99,21 @@ class AddScreen extends React.Component {
       });
   };
   // stateに入っているダウンロードURLなどをFirestoreに記述する
-  uploadPost(url, shopName, text, postIndex) {
+  uploadPost(url, shopName, text, category, prefecture, postIndex) {
     Fire.shared.uploadPost({
       url,
       shopName,
       text,
+      category,
+      prefecture,
       postIndex,
     });
   }
   // 投稿時の処理
   async onPressAdd() {
     await this.uploadPostImg();
-    const { imgUrl, shopName, text, postIndex } = await this.state;
-    this.uploadPost(imgUrl, shopName, text, postIndex);
+    const { imgUrl, shopName, text, category, prefecture, postIndex } = await this.state;
+    await this.uploadPost(imgUrl, shopName, text, category, prefecture, postIndex);
     this.setState(
       {
         addedPost: [
@@ -116,6 +121,8 @@ class AddScreen extends React.Component {
             imgUrl,
             shopName,
             text,
+            category,
+            prefecture,
             postIndex,
           },
         ],
@@ -126,6 +133,8 @@ class AddScreen extends React.Component {
       imgUrl: null,
       shopName: 'test',
       text: 'test',
+      category: '焼肉',
+      prefecture: '福井県'
     });
     // HomeScreenに遷移し、同時に投稿情報を付与
     this.props.navigation.navigate('Home', this.state.addedPost)
@@ -206,7 +215,7 @@ class AddScreen extends React.Component {
             name='collections'
             type='material'
             color='gray'
-            size={40}
+            size={35}
           />
         </TouchableOpacity>
         {/* camera反転button */}
@@ -223,7 +232,7 @@ class AddScreen extends React.Component {
             name='flip-camera-ios'
             type='material'
             color='gray'
-            size={40}
+            size={35}
           />
         </TouchableOpacity>
       </View>
@@ -232,6 +241,7 @@ class AddScreen extends React.Component {
 
   // カメラ撮影後
   renderImage() {
+    const { shopName, category, text } = this.state;
     return (
       <View>
         <ImageBackground
@@ -253,16 +263,18 @@ class AddScreen extends React.Component {
             />
           </TouchableOpacity>
         </ImageBackground>
-        {/* <Button
-          title='次へ'
-          onPress={() => this.props.navigation.navigate('Post', this.state.imgUrl)}
 
-        /> */}
-
-        <Button
-          title='シェア'
-          onPress={() => this.onPressAdd()}
-        />
+        {/* 店舗情報が入力されているかを判断 */}
+        {shopName === null || category === null || text === null
+          ? <Button
+            title='店舗情報を入力'
+            onPress={() => this.props.navigation.navigate('Post')}
+          />
+          : <Button
+            title='シェア'
+            onPress={() => this.onPressAdd()}
+          />
+        }
       </View>
     );
   }
@@ -315,10 +327,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   camera_button: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   footerIcons: {
     alignItems: 'flex-end',

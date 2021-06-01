@@ -8,6 +8,7 @@ import { Icon, Input } from 'react-native-elements';
 const { width, height } = Dimensions.get('window');
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
+import { SafeAreaView } from 'react-native';
 
 class PostScreen extends React.Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class PostScreen extends React.Component {
     this.state = {
       shopName: '',
       text: '',
+      category: '',
+      location: '',
       textInfo: [],
     };
   }
@@ -27,7 +30,32 @@ class PostScreen extends React.Component {
           placeholder='店名を入力'
           onChangeText={text => this.setState({ shopName: text })}
           defaultValue={this.state.shopName}
-          style={{ marginTop: 30 }}
+        />
+      </View>
+    );
+  }
+
+  // category
+  render_category() {
+    return (
+      <View>
+        <Input
+          placeholder='カテゴリーを入力'
+          onChangeText={text => this.setState({ category: text })}
+          defaultValue={this.state.category}
+        />
+      </View>
+    );
+  }
+
+  // location
+  render_location() {
+    return (
+      <View>
+        <Input
+          placeholder='位置情報を入力'
+          onChangeText={text => this.setState({ location: text })}
+          defaultValue={this.state.location}
         />
       </View>
     );
@@ -41,7 +69,6 @@ class PostScreen extends React.Component {
           placeholder='詳細情報を入力'
           onChangeText={text => this.setState({ text: text })}
           defaultValue={this.state.text}
-          style={{ marginTop: 10 }}
         />
       </View>
     );
@@ -71,16 +98,23 @@ class PostScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <SafeAreaView />
         <ScrollView>
           {/* shopName */}
           {this.render_shopName()}
+
+          {/* category */}
+          {this.render_category()}
+
+          {/* location */}
+          {this.render_location()}
 
           {/* description */}
           {this.render_text()}
 
           <Button
             title='保存'
-            onPress={() => this.onPressSave()}
+            onPress={() => this.props.navigation.goBack()}
           />
 
         </ScrollView>

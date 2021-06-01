@@ -16,9 +16,11 @@ class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      myProfile: [],
       myPosts: [],
     };
     //  Firestoreのデータを読みこむ 
+    this.downloadMyProfile();
     this.downloadMyPosts();
   }
 
@@ -28,6 +30,14 @@ class ProfileScreen extends React.Component {
   //     myPosts: [...this.state.allPosts, ...childState],
   //   });
   // };
+
+  async downloadMyProfile() {
+    const profile = await Fire.shared.getUserInfo();
+    this.setState({
+      myProfile: profile,
+    });
+    console.log(this.state.myProfile);
+  }
 
   async downloadMyPosts() {
     const posts = await Fire.shared.getPosts();

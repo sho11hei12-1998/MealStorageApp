@@ -26,6 +26,22 @@ class MyPage_1 extends React.Component {
     });
   }
 
+  // 投稿を非表示にする
+  async notDisplayPost(postIndex) {
+    await Fire.shared.notDisplayPost({
+      postIndex,
+    });
+    this.downloadMyPosts();
+  }
+
+  // 投稿を削除する
+  async deletePost(postIndex) {
+    await Fire.shared.deletePost({
+      postIndex,
+    });
+    this.downloadMyPosts();
+  }
+
   render() {
     const { myPosts } = this.state;
     return (
@@ -48,6 +64,16 @@ class MyPage_1 extends React.Component {
                       source={{ uri: item.imgUrl }}
                     />
                   </TouchableOpacity>
+
+                  {/* <TouchableOpacity onPress={() => this.deletePost(item.postIndex)}>
+                    <Icon
+                      reverse
+                      name='delete'
+                      type='material-icons'
+                      color='gray'
+                      size={20}
+                    />
+                  </TouchableOpacity> */}
                 </View>
               );
             })}
@@ -63,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 7
+    paddingHorizontal: 7
   },
 });
 

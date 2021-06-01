@@ -23,6 +23,7 @@ class DetailScreen extends React.Component {
   }
 
   render() {
+    const { DetailPost } = this.state;
     return (
       <View style={styles.container}>
         <View>
@@ -31,7 +32,7 @@ class DetailScreen extends React.Component {
               width: width,
               height: height,
             }}
-            source={{ uri: this.state.DetailPost.imgUrl }}
+            source={{ uri: DetailPost.imgUrl }}
           >
             <SafeAreaView />
             <TouchableOpacity
@@ -46,6 +47,15 @@ class DetailScreen extends React.Component {
                 size={20}
               />
             </TouchableOpacity>
+
+            {/* カテゴリ */}
+            <Text style={{ color: 'white', fontSize: 20 }}>焼肉</Text>
+
+            {/* 店名 */}
+            <Text style={{ color: 'white', fontSize: 30 }}>{DetailPost.shopName}</Text>
+
+            {/* text */}
+            <Text style={{ color: 'white', fontSize: 20 }}>{DetailPost.text}</Text>
           </ImageBackground>
         </View>
 

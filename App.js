@@ -32,6 +32,7 @@ import AuthHomeScreen from 'app/screens/Auth/AuthHomeScreen'
 import SignUpScreen from 'app/screens/Auth/SignUpScreen';
 import SignInScreen from 'app/screens/Auth/SignInScreen';
 
+
 import firebase from 'firebase';
 import Fire from 'app/screens/Fire_Posts';
 
@@ -69,7 +70,6 @@ function AddStackScreen() {
         cardOverlayEnabled: true,
         ...TransitionPresets.ModalPresentationIOS,
       }}
-      options={{ tabBarVisible: false }}
     >
       <AddStack.Screen name="Add" component={AddScreen} />
       <AddStack.Screen name="Post" component={PostScreen} />
@@ -125,7 +125,7 @@ function BottomTabStack() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({ route, navigation, index }) => ({
+      screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -138,9 +138,6 @@ function BottomTabStack() {
             iconName = focused
               ? 'add'
               : 'add';
-            if (route.index === -1) {
-              return null
-            }
           }
           else if (route.name === 'Profile') {
             iconName = focused
@@ -161,7 +158,7 @@ function BottomTabStack() {
       <Tab.Screen name="Home" component={HomeStackScreen} />
       <Tab.Screen name="Add" component={AddStackScreen}
         options={{
-          tabBarVisible: false,
+          // tabBarVisible: false,
         }}
       />
       <Tab.Screen name="Profile" component={ProfileStackScreen} />

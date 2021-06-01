@@ -77,7 +77,7 @@ class SearchScreen extends React.Component {
 
         <ScrollView>
           {/* 探す */}
-          <Text style={styles.title}>探す</Text>
+          <Text style={styles.title}>今すぐ探す</Text>
           <View style={{ alignItems: 'flex-start', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}>
             {icon_name.map((item, idx) => {
               return (

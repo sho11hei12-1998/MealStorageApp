@@ -136,9 +136,11 @@ class SignUpScreen extends React.Component {
         />
         <Button
           title="メールアドレスで登録"
-          onPress={() => signUp(this.state.email, this.state.password)}
+          onPress={() => {
+            signUp(this.state.email, this.state.password);
+            alert('Meal Sharingへようこそ!');
+          }}
         />
-
       </View>
     );
   }

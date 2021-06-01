@@ -2,14 +2,25 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Icon, Input, Header } from 'react-native-elements';
 
+import Fire from 'app/screens/Fire_Posts';
 class ProfileEditingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      userName: '',
-      birth: ''
+      iconUrl: null,
+      userName: null,
+      birth: null,
+      address: null,
     };
+  }
+
+  // user情報を登録
+  async submitUserInfo() {
+    const { iconUrl, userName, birth, address } = this.state;
+    await Fire.shared.updateUserInfo({
+      iconUrl, userName, birth, address
+    });
+    alert('登録の変更が完了しました。');
   }
 
   render() {
@@ -17,7 +28,11 @@ class ProfileEditingScreen extends React.Component {
       <View style={styles.container}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }}>
           <Button title='キャンセル' onPress={() => this.props.navigation.goBack()} />
-          <Button title='完了' onPress={() => this.props.navigation.navigate('Profile')} />
+          <Button title='保存'
+            onPress={() => {
+              this.submitUserInfo();
+              this.props.navigation.navigate('Profile');
+            }} />
         </View>
 
         <View style={{ paddingHorizontal: 20 }}>
@@ -30,22 +45,22 @@ class ProfileEditingScreen extends React.Component {
             />
           </TouchableOpacity>
           <Input
-            placeholder='名前'
-            onChangeText={text => this.setState({ name: text })}
-            defaultValue={this.state.name}
-            style={{ marginTop: 30 }}
-          />
-          <Input
-            placeholder='ユーザーネーム'
+            placeholder='ユーザー名'
+            label={'User Name'}
+            value={this.state.userName}
             onChangeText={text => this.setState({ userName: text })}
-            defaultValue={this.state.userName}
-            style={{ marginTop: 10 }}
           />
           <Input
             placeholder='生年月日'
+            label={'born'}
+            value={this.state.born}
             onChangeText={text => this.setState({ birth: text })}
-            defaultValue={this.state.birth}
-            style={{ marginTop: 10 }}
+          />
+          <Input
+            placeholder='お住まい'
+            label={'address'}
+            value={this.state.address}
+            onChangeText={text => this.setState({ address: text })}
           />
         </View>
       </View>

@@ -58,7 +58,10 @@ class SignInScreen extends React.Component {
         />
         <Button
           title="ログイン"
-          onPress={() => signIn(this.state.email, this.state.password)}
+          onPress={() => {
+            signIn(this.state.email, this.state.password);
+            alert('こんにちは');
+          }}
         />
 
         <View style={{ marginTop: 30 }}>

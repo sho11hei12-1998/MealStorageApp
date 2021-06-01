@@ -81,10 +81,10 @@ class MyPostDetail extends React.Component {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>
-                  // this.deletePost(DetailPost.postIndex),
-                  this.props.navigation.goBack()
-                }
+                onPress={() => {
+                  this.deletePost(DetailPost.postIndex)
+                  this.props.navigation.navigate('Profile')
+                }}
               >
                 <Icon
                   reverse
